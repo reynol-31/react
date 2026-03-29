@@ -1,3 +1,4 @@
+```jsx
 import { useState } from "react";
 const App = () => {
   const [count, setCount] = useState(0);
@@ -55,3 +56,4 @@ const styles = {
   input: { marginLeft: "10px", padding: "5px", fontSize: "16px" },
 };
 export default App;
+```
