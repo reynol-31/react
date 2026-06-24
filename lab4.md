@@ -107,3 +107,52 @@ const styles = {
 };
 export default ToDoFunction;
 ```
+---
+```jsx
+import { useState } from "react";
+export default function ToDo() {
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+  return (
+    <div>
+      <h1>React To-Do List</h1>
+      <input
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="Enter a task..."
+      />
+      <button
+        onClick={() => {
+          setTasks([...tasks, { text: task, done: false }]);
+          setTask("");
+        }}
+      >
+        Add Task
+      </button>
+
+      {tasks.map((t, i) => (
+        <div key={i}>
+          <span
+            style={{
+              textDecoration: t.done ? "line-through" : "none",
+            }}
+            onClick={() => {
+              t.done = !t.done;
+              setTasks([...tasks]);
+            }}
+          >
+            {i + 1}. {t.done ? "✅" : "❌"} {t.text}
+          </span>
+          <button
+            onClick={() =>
+              setTasks(tasks.filter((_, j) => j !== i))
+            }
+          >
+            🪣
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
