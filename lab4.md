@@ -110,46 +110,55 @@ export default ToDoFunction;
 ---
 ```jsx
 import { useState } from "react";
+
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
+
+  const addTask = () => {
+    if (task !== "") {
+      setTasks([...tasks, { text: task, done: false }]);
+      setTask("");
+    }
+  };
+
+  const toggleTask = (index) => {
+    setTasks(
+      tasks.map((t, i) =>
+        i === index ? { ...t, done: !t.done } : t
+      )
+    );
+  };
+
+  const deleteTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
   return (
     <div>
       <h1>React To-Do List</h1>
+
       <input
         value={task}
         onChange={(e) => setTask(e.target.value)}
         placeholder="Enter a task..."
       />
-      <button
-        onClick={() => {
-          setTasks([...tasks, { text: task, done: false }]);
-          setTask("");
-        }}
-      >
-        Add Task
-      </button>
+
+      <button onClick={addTask}>Add Task</button>
 
       {tasks.map((t, i) => (
         <div key={i}>
           <span
+            onClick={() => toggleTask(i)}
             style={{
               textDecoration: t.done ? "line-through" : "none",
-            }}
-            onClick={() => {
-              t.done = !t.done;
-              setTasks([...tasks]);
+              cursor: "pointer",
             }}
           >
             {i + 1}. {t.done ? "✅" : "❌"} {t.text}
           </span>
-          <button
-            onClick={() =>
-              setTasks(tasks.filter((_, j) => j !== i))
-            }
-          >
-            🪣
-          </button>
+
+          <button onClick={() => deleteTask(i)}>🗑️</button>
         </div>
       ))}
     </div>
